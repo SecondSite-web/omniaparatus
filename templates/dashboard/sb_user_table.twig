@@ -1,0 +1,274 @@
+{% extends 'sb_index.twig' %}
+
+  {% block body %}
+
+      <!-- DataTales Example -->
+      <div class="card shadow mb-4">
+          <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">User Accounts Table</h6>
+          </div>
+          <div class="card-body" id="usertbl">
+            <div class="alerts"></div>
+              <div class="table-responsive">
+                  <table id="dataTable" class="table table-striped">
+                      <thead>
+                      <tr>
+                          <th>{{ thead.0|capitalize|escape }}</th>
+                          <th>{{ thead.1|capitalize|escape }}</th>
+                          <th>{{ thead.4|capitalize|escape }}</th>
+                          <th>{{ thead.5|capitalize|escape }}</th>
+                          <th>{{ thead.6|capitalize|escape }}</th>
+                          <th>{{ thead.7|capitalize|escape }}</th>
+                          <th>Registration Date</th>
+                          <th>User Status</th>
+                          <th></th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      {% for r in tbody %}
+                          <tr>
+                              <td>{{ r.id|capitalize|escape }}</td>
+                              <td contenteditable id="{{ thead.1 }}">
+                                <div contenteditable class="update" data-id="{{ r.id }}" data-column="{{thead.1}}">
+                                <a href="mailto:{{ r.email|escape }}">{{ r.email|escape }}</a></div></td>
+                              <td contenteditable id="{{ thead.4 }}">{{ r.firstname|capitalize|escape }}</td>
+                              <td contenteditable id="{{ thead.5 }}">{{ r.lastname|capitalize|escape }}</td>
+                              <td contenteditable id="{{ thead.6 }}">{{ r.phone|capitalize|escape }}</td>
+                              <td>{% if user.userrole == 'admin' %}<form class="user_role" id="change-userrole-form{{ r.id|escape }}" action="{{ site.admin }}php/change-userrole.php" method="post" role="form">
+                                      <input style="display:none";  class="hidden" type="hidden" name="user_id" value="{{ r.id|escape }}" placeholder="{{ r.id|escape }}" required="required" />
+                                      <input type="hidden" name="nonce" value="{{ call_nonce('user_role') }}" />
+                                      <select class="select form-control form-control-sm" name="userrole" value="{{ r.userrole|capitalize|escape }}" type="submit">
+                                          <option {% if r.userrole == "admin" %}selected{% endif %}>Admin</option>
+                                          <option {% if r.userrole == "guest" %}selected{% endif %}>Guest</option>
+                                          <option {% if r.userrole == "banned" %}selected{% endif %}>Banned</option>
+                                      </select>
+                                  </form>{% endif %}
+                              </td>
+                              <td contenteditable id="{{ thead.8 }}">{{ r.dt|escape }}</td>
+                              <td>
+                                <form class="user_status" id="user-status-form{{ r.id|escape }}" action="{{ site.admin }}php/user-status.php" method="post" role="form">
+                                  <input style="display:none; visibility:hidden;" type="text" class="hidden" name="id" value="{{ r.id|escape }}" placeholder="{{ r.id|escape }}" required="required">
+                                    <input type="hidden" name="nonce" value="{{ call_nonce('user_status') }}" />
+                                    <select class="status form-control form-control-sm" name="user_status" value="{{ r.isactive|capitalize|escape }}" type="submit">
+                                        <option value="1" {% if r.userrole != "banned" and r.isactive == "1" %}selected{% endif %}>Active</option>
+                                        <option value="0" {% if r.userrole != "banned" and r.isactive == "0" %}selected{% endif %}>Inactive</option>
+                                        <option value="banned" {% if r.userrole == "banned" %}selected{% endif %}>Banned</option>
+                                    </select>
+                                </form>
+                              </td>
+                              <td>
+                                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detailsmodal{{ r.id }}">
+                                      <i class="fa fa-info-circle"></i>
+                                  </button>
+                                  <div id="detailsmodal{{ r.id }}" class="modal" tabindex="-1" role="dialog">
+                                      <div class="modal-dialog" role="document">
+                                          <div class="modal-content">
+                                              <div class="modal-header">
+                                                  <h5 class="modal-title">Modal title</h5>
+                                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                      <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                              </div>
+                                              <div class="modal-body">
+                                                  <div class="row" id="profile-banner">
+                                                      <div class="card p-4 detail-card">
+                                                          <div class="row">
+                                                              <div class="col">
+                                                                  <div class="profile-wrapper mb-3 shadow-sm">
+                                                                      {% if r.profilepic == null %}
+                                                                          <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+                                                                      {% else %}
+                                                                          <img src="{{ site.url }}uploads/profiles/{{ r.profilepic }}" class="img-responsive" style="width:100%" alt="Image">
+                                                                      {% endif %}
+                                                                      <!-- Button trigger modal -->
+                                                                      <p><small>Please Upload your photo or logo</small></p>
+                                                                  </div>
+                                                              </div>
+                                                              <div class="col">
+                                                                  <ul class="list-unstyled">
+                                                                      <li><h3>{{ r.firstname }} {{ r.lastname }}</h3></li>
+                                                                      <li><a href="mailto:{{ r.email }}">{{ r.email|e }}</a></li>
+                                                                      <li>{{ r.phone|escape|capitalize }}</li>
+                                                                  </ul>
+                                                              </div>
+                                                              <div class="modal fade" id="profile-pic-modal{{ r.id }}" tabindex="-1" role="dialog" aria-labelledby="profile-pic-modalLabel" aria-hidden="true">
+                                                                  <div class="modal-dialog" role="document">
+                                                                      <div class="modal-content">
+                                                                          <div class="modal-header">
+                                                                              <h5 class="modal-title">Profile Picture Upload</h5>
+                                                                              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                                  <span aria-hidden="true">×</span>
+                                                                              </button>
+                                                                          </div>
+                                                                          <div class="modal-body">
+                                                                              <div class="profile-wrapper text-center mt-3 mb-3">
+                                                                                  {% if r.profilepic == null %}
+                                                                                      <img src="https://placehold.it/150x80?text=IMAGE" class="img-responsive" style="width:100%" alt="Image">
+                                                                                  {% else %}
+                                                                                      <img src="{{ site.url }}uploads/profiles/{{ r.profilepic }}" class="img-responsive" style="width:100%" alt="Image">
+                                                                                  {% endif %}
+                                                                              </div>
+                                                                              <form class="profile-pic" id="profile-pic" action="{{ site.admin }}php/profile-pic.php" method="POST" enctype="multipart/form-data">
+                                                                                  <div class="custom-file mb-4">
+                                                                                      <input class="custom-file-input" type="file" name="profile-upload" id="profile-upload" />
+                                                                                      <label class="custom-file-label" for="profile-upload">Choose file</label>
+                                                                                      <input type="hidden" value="{{ r.id }}" name="uid" id="uid">
+                                                                                      <p class="text-danger text-xs">Any square bigger than 250 x 250 px. Recommended image size of 512 x 512 px</p>
+                                                                                      <span><input class="btn btn-success" type="submit" value="Upload File"/></span><span class="messages"></span>
+                                                                                  </div>
+                                                                              </form>
+                                                                          </div>
+                                                                          <div class="modal-footer">
+                                                                              <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+
+                                                              <button type="button" class="btn btn-primary float-right edit-btn" data-toggle="modal" data-target="#profile-pic-modal{{ r.id }}">
+                                                                  <i class="fa fa-pen-fancy"></i>
+                                                              </button>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                                  <div class="row mt-5 mb-5">
+                                                      <div class="card p-4 detail-card">
+                                                          <div class="card-body">
+                                                              <h4 class="card-title">Business Details</h4>
+                                                              <ul class="list-unstyled">
+                                                                  <li><h5 class="text-dark">{{ r.business|escape|capitalize }}</h5> </li>
+                                                                  <li>In: <span class="text-dark">{{ r.country|e|title }} - {{ r.city|e|title }}</span></li>
+                                                                  <li>Founded: <span class="text-dark">{{ r.opening_date|escape|capitalize }}</span></li>
+                                                                  <li>Industry: <span class="text-dark">{{ r.industry|escape|capitalize }}</span></li>
+                                                                  <li>Description:</li>
+                                                              </ul>
+                                                              <p><span class="text-dark">{{ r.description|escape|capitalize }}</span></p>
+                                                              <div class="modal fade" id="details-modal{{ r.id }}" tabindex="-1" role="dialog" aria-labelledby="details-modalLabel" aria-hidden="true">
+                                                                  <div class="modal-dialog" role="document">
+                                                                      <div class="modal-content">
+                                                                          <div class="modal-header">
+                                                                              <h5 class="modal-title">Details Update</h5>
+                                                                              <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                                                                                  <span aria-hidden="true">×</span>
+                                                                              </button>
+                                                                          </div>
+                                                                          <div class="modal-body">
+                                                                              <form id="profile-form" class="profile-form user mt-4" action="{{ site.admin }}php/profile.php" method="post" role="form" data-toggle="validator">
+                                                                                  <div class="messages"></div>
+                                                                                  <input type="hidden" value="{{ r.id|e }}" name="uid" id="uid">
+                                                                                  <div class="form-group row">
+                                                                                      <div class="col-sm-6 mb-3 mb-sm-0">
+                                                                                          <label for="firstname">First Name</label>
+                                                                                          <input type="text" class="form-control form-control-user"  id="firstname" name="firstname" placeholder="{{ r.firstname|escape|capitalize }}" value="{{ r.firstname|escape|capitalize }}" required>
+                                                                                      </div>
+                                                                                      <div class="col-sm-6 mb-3">
+                                                                                          <label for="lastname">Last Name</label>
+                                                                                          <input type="text" class="form-control form-control-user" id="lastname" name="lastname" placeholder="{{ r.lastname|escape|capitalize }}" value="{{ r.lastname|escape|capitalize }}" required>
+                                                                                      </div>
+                                                                                  </div>
+                                                                                  <div class="form-group row mb-3">
+                                                                                      <div class="col-sm-6">
+                                                                                          <label for="phone">Phone Number</label>
+                                                                                          <input type="hidden" name="nonce" value="{{ call_nonce('profile-form') }}" />
+                                                                                          <input type="text" class="form-control form-control-user" id="phone" name="phone" placeholder="{{ r.phone|escape|capitalize }}" value="{{ r.phone|escape|capitalize }}">
+                                                                                      </div>
+                                                                                      <div class="col-sm-6">
+                                                                                          <label for="email">Email Address</label>
+                                                                                          <input type="email" class="form-control form-control-user" id="email" name="email" placeholder="{{ r.email|escape }}" value="{{ r.email|escape }}" required="required">
+                                                                                      </div>
+                                                                                  </div>
+
+                                                                                  <hr class="m-4" />
+
+                                                                                  <div class="row mb-3">
+                                                                                      <div class="col-sm-12">
+                                                                                          <label for="business">Business Name</label>
+                                                                                          <input type="text" class="form-control form-control-user" id="business" name="business" placeholder="{{ r.business|escape|capitalize }}" value="{{ r.business|escape }}" required="required">
+                                                                                      </div>
+                                                                                  </div>
+                                                                                  <div class="row mb-3">
+                                                                                      <div class="col-sm-12">
+                                                                                          <label for='start_date'>Founding Date</label>
+                                                                                          <div class="input-group">
+                                                                                              <div class="input-group-prepend">
+                                                                                                  <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                                                                                              </div>
+                                                                                              <input type='text' class="form-control" name="opening_date" id='opening_date' placeholder="{{ r.opening_date|escape|capitalize }}" value="{{ r.opening_date|escape }}" />
+                                                                                          </div>
+                                                                                      </div>
+                                                                                  </div>
+                                                                                  <div class="row mb-3">
+                                                                                      <div class="col-sm-12">
+                                                                                          <label for="industry">What industry do you work in?</label>
+                                                                                          <input type="text" class="form-control form-control-user" id="industry" name="industry" placeholder="{{ r.industry|escape|capitalize }}" value="{{ r.industry|escape }}" />
+                                                                                      </div>
+                                                                                  </div>
+                                                                                  <div class="row mb-3">
+                                                                                      <div class="col-sm-12">
+                                                                                          <label for="description">Description</label>
+                                                                                          <textarea type="text" class="form-control form-control-user" id="description" name="description" placeholder="{{ r.description|escape|capitalize }}">{{ r.description|escape }}</textarea>
+                                                                                      </div>
+                                                                                  </div>
+                                                                                  <hr class="m-4" />
+                                                                                  <div class="row mb-3">
+                                                                                      <div class="col-sm-12">
+                                                                                          <label for="address_street">Business Address</label>
+                                                                                          <input type="text" class="form-control form-control-user" id="address_street" name="address_street" placeholder="{{ r.address_street|escape|capitalize }}" value="{{ r.address_street|escape|capitalize }}" />
+                                                                                      </div>
+                                                                                  </div>
+                                                                                  <div class="row mb-3">
+                                                                                      <div class="col-sm-12">
+                                                                                          <label for="city">City</label>
+                                                                                          <input type="text" class="form-control form-control-user" id="city" name="city" placeholder="{{ r.city|escape|capitalize }}" value="{{ r.city|escape }}" />
+                                                                                      </div>
+                                                                                  </div>
+                                                                                  <div class="row mb-3">
+                                                                                      <div class="col-sm-12">
+                                                                                          <label for="country">Country</label>
+                                                                                          <input type="text" class="form-control form-control-user" id="country" name="country" placeholder="{{ r.country|escape|capitalize }}" value="{{ r.country|escape }}" />
+                                                                                      </div>
+                                                                                  </div>
+                                                                                  <hr class="m-4" />
+
+                                                                                  <button type="submit" id="submit" class="btn btn-success btn-send mt-3"><i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i> Update</button>
+                                                                              </form>
+                                                                          </div>
+                                                                          <div class="modal-footer">
+                                                                              <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                                                                          </div>
+                                                                      </div>
+                                                                  </div>
+                                                              </div>
+
+                                                              <button type="button" class="btn btn-primary float-right edit-btn" data-toggle="modal" data-target="#details-modal{{ r.id }}">
+                                                                  <i class="fa fa-pen-fancy"></i>
+                                                              </button>
+                                                          </div>
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                              <div class="modal-footer">
+                                                  <button type="button" class="btn btn-primary">Save changes</button>
+                                                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+
+                              </td>
+                          </tr>
+                      {% endfor %}
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+      </div>
+
+  {% endblock %}
+{% block scripts %}
+    <script nonce="{{ call_nonce('datatables_nonce', true) }}" type="text/javascript" src="{{ site.url }}vendor/datatables/jquery.dataTables.min.js"></script>
+    <script nonce="{{ call_nonce('bootstrap_nonce', true) }}" type="text/javascript" src="{{ site.url }}vendor/datatables/dataTables.bootstrap4.min.js"></script>
+    <script nonce="{{ call_nonce('script_nonce', true) }}" type="text/javascript" src="{{ site.url|e }}vendor/moment/moment.min.js"></script>
+    <script nonce="{{ call_nonce('script_nonce', true) }}" type="text/javascript" src="{{ site.url|e }}vendor/datimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script nonce="{{ call_nonce('page_script_nonce', true) }}" type="text/javascript" src="{{ site.admin }}js/user-table.min.js"></script>
+{% endblock %}

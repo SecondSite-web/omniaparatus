@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en-ZA" prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>{{ page.title|e }}</title>
+
+        <meta name="description" content="{{ page.description|e }}" />
+        <meta name="image" content="{{ page.pic|e }}" />
+        <meta name="robots" content="index,follow" />
+        <link rel="canonical" href="{{ page.url|escape }}" />
+
+        <meta property="og:locale" content="en_ZA" />
+        <meta property="og:type" content="website" />
+        <meta property="og:title" content="{{ page.title|e }} - {{ site.name|e }}" />
+        <meta property="og:description" content="{{ page.description|e }}" />
+        <meta property="og:url" content="{{ page.url|escape }}" />
+        <meta property="og:site_name" content="{{ site.name|e }}" />
+        <meta property="og:image" content="{{ page.url|escape }}{{ page.pic|e }}" />
+        <meta property="og:image:alt" content="{{ page.title|e }}" />
+        <meta property="og:image:type" content="image/png" />
+        <meta property="fb:app_id" content="461996124627453" />
+        <meta property="fb:admins" content="461996124627453" />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="{{ page.title|e }} - {{ site.name|e }}" />
+        <meta name="twitter:description" content="{{ page.description|e }}" />
+        <meta name="twitter:image" content="{{ page.url|escape }}{{ page.pic|e }}" />
+        <meta name="twitter:image:alt" content="{{ page.description|e }}" />
+
+        <meta name="DC.title" content="Sir Lowry's Pass" />
+        <meta name="geo.region" content="ZA-WC" />
+        <meta name="geo.placename" content="Sir Lowry's Pass" />
+        <meta name="geo.position" content="-34.140307;18.895935" />
+        <meta name="ICBM" content="-34.140307, 18.895935" />
+
+        {#
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ site.url|e }}apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ site.url|e }}favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="{{ site.url|e }}favicon-16x16.png">
+        <link rel="manifest" href="{{ site.url|e }}site.webmanifest">
+        #}
+
+        {# include your site.manifest link here with icon links for favicons #}
+        {# include schema.org structured data json meta here for SEO #}
+        <link rel='dns-prefetch' href='//code.jquery.com' />
+        <link rel="stylesheet" href="{{ site.url|e }}css/styles.min.css">
+
+
+
+    </head>
+
+    <body class="page-{{page.class|e}} bg-light">
+    <!--[if lte IE 9]>
+    <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="https://browsehappy.com/">upgrade your browser</a> to improve your experience and security.</p>
+    <![endif]-->
+    {% include 'navbar.twig' %}
+
+    {% block header %}{% endblock header %}
+
+    <div id="site-content">
+    {% block body %}{% endblock body %}
+    </div>
+    {% include 'footer.twig' %}
+        {# for Production use #}
+        <script nonce="{{ call_nonce('script_nonce', true) }}" type="text/javascript" src="{{ site.url|e }}js/main.min.js"></script>
+        {% block scripts %}{% endblock scripts %} {# for extra one page only scripts #}
+    </body>
+</html>

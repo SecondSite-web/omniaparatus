@@ -1,0 +1,89 @@
+{
+  "name": "omniaparatus",
+  "version": "1.0.0",
+  "description": "OMNIA PARATUS Collaboration Website Framework",
+  "main": "index.php",
+  "scripts": {
+    "start": "node_modules/.bin/gulp build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SecondSite-web/omniaparatus.git"
+  },
+  "keywords": [
+    "PHP",
+    "Twig",
+    "PHPAuth",
+    "PHPMailer",
+    "SQL",
+    "Bootstrap",
+    "FontAwesome"
+  ],
+  "author": "SecondSite",
+  "license": " GPL-2.0-or-later",
+  "bugs": {
+    "url": "https://github.com/SecondSite-web/omniaparatus/issues"
+  },
+  "cssnano": {
+    "preset": [
+      "default",
+      {
+        "discardComments": {
+          "removeAll": true
+        }
+      }
+    ]
+  },
+  "homepage": "https://github.com/SecondSite-web/omniaparatus#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.13.0",
+    "animate.css": "^4.1.1",
+    "autoprefixer": "^9.8.0",
+    "bootstrap": "^4.6.0",
+    "bootswatch": "^4.6.0",
+    "chart.js": "^2.9.3",
+    "composer": "^4.1.0",
+    "cssnano": "^4.1.10",
+    "datatables.net-bs4": "^1.10.21",
+    "fibers": "^5.0.0",
+    "gulp-cache": "^1.1.3",
+    "gulp-install": "^1.1.0",
+    "gulp-postcss": "^8.0.0",
+    "gulp-strip-comments": "^2.5.2",
+    "gulp-terser-js": "^5.2.2",
+    "gulp-zip": "^5.0.2",
+    "imagemin-giflossy": "^5.1.10",
+    "imagemin-mozjpeg": "^8.0.0",
+    "imagemin-pngquant": "^8.0.0",
+    "imagemin-zopfli": "^6.0.0",
+    "jquery": "^3.5.1",
+    "jquery-validation": "^1.19.2",
+    "jquery.easing": "^1.4.1",
+    "moment": "^2.26.0",
+    "node-sass": "^4.14.1",
+    "pc-bootstrap4-datetimepicker": "^4.17.51",
+    "pipeline": "^0.1.3",
+    "popper.js": "^1.16.1",
+    "readable-stream": "^3.6.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.26.13",
+    "del": "^4.1.1",
+    "gulp": "^4.0.2",
+    "gulp-bootstrap-email": "^0.1.0",
+    "gulp-clean-css": "^4.3.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-deporder": "^1.2.0",
+    "gulp-header": "^2.0.9",
+    "gulp-imagemin": "^6.2.0",
+    "gulp-newer": "^1.4.0",
+    "gulp-plumber": "^1.2.1",
+    "gulp-rename": "^1.4.0",
+    "gulp-sass": "^4.1.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "gulp-strip-debug": "^3.0.0",
+    "gulp-terser": "^1.2.0",
+    "gulp-uglify": "^3.0.2",
+    "merge-stream": "^2.0.0"
+  }
+}

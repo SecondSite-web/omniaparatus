@@ -1,0 +1,12 @@
+[06-Jan-2021 06:15:30 Africa/Johannesburg] PHP Fatal error:  Uncaught Error: Call to undefined method Setup::verify_nonce() in /home/switchboard/public_html/php/contact-form.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/switchboard/public_html/php/contact-form.php on line 16
+[09-Jan-2021 04:05:19 Africa/Johannesburg] PHP Fatal error:  Uncaught Error: Call to undefined method Setup::verify_nonce() in /home/switchboard/public_html/php/contact-form.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/switchboard/public_html/php/contact-form.php on line 16
+[16-Jan-2021 17:13:37 Africa/Johannesburg] PHP Fatal error:  Uncaught Error: Call to undefined method Setup::verify_nonce() in /home/switchboard/public_html/php/contact-form.php:16
+Stack trace:
+#0 {main}
+  thrown in /home/switchboard/public_html/php/contact-form.php on line 16

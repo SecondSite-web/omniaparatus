@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="{{ site.name }} - {{ page.title }}" />
+    <meta name="author" content="SecondSite.xyz" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>{{ site.name }} - {{ page.title }}</title>
+      {#
+      <link rel="apple-touch-icon" sizes="180x180" href="{{ site.url|e }}apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="{{ site.url|e }}favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="{{ site.url|e }}favicon-16x16.png">
+      <link rel="manifest" href="{{ site.url|e }}site.webmanifest">
+      #}
+    <link href="{{ site.admin }}css/admin.min.css" rel="stylesheet" />
+    {% block head %}
+
+    {% endblock %}
+  </head>
+  <body class="bg-gradient-primary {{ page.class }}">
+      <div class="container">
+          <div class="card o-hidden border-0 shadow-lg my-5">
+              <div class="card-body p-0">
+                  <div class="row">
+                      <div class="col-lg-5 d-none d-lg-block p-3 mt-auto mb-auto text-center">
+
+                      </div>
+                      <div class="col-lg-7">
+                          <div class="p-5">
+                              <div class="text-center">
+                                  <h1 class="h4 text-gray-900 mb-4">{{ page.title }}</h1>
+                              </div>
+                              <div class="main" style="min-height:240px;">
+                                {% block body %}{% endblock %}
+                              </div>
+                              <hr>
+                              <div class="text-center">
+                                  <a class="small" href="{{ site.admin }}reset-request.php">Forgot Password?</a>
+                              </div>
+                              <div class="text-center">
+                                  <a class="small" href="{{ site.admin }}login.php">Login Here!</a>
+                              </div>
+                              {% if site.allowRegister == '1' %}
+                              <div class="text-center">
+                                  <a class="small" href="{{ site.admin }}register.php">Register a new account</a>
+                              </div>
+                              {% endif %}
+
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+      <script nonce="{{ call_nonce('script_nonce', true) }}" type="text/javascript" src="{{ site.url }}dashboard/js/admin.min.js"></script>
+      {% block scripts %}{% endblock %}
+  </body>
+</html>
